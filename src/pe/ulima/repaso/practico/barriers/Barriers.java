@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class Barriers {
 
-
     public static void main(String[] args) {
         CyclicBarrier barrier1, barrier2, barrier3;
         Thread pin, pon, pun;
@@ -37,35 +36,35 @@ public class Barriers {
             e.printStackTrace();
         }
 
+    }
+}
 
+class PinPonPun extends Thread {
+    private CyclicBarrier barrierInicio;
+    private CyclicBarrier barrierFin;
+
+    public PinPonPun(CyclicBarrier barrierInicio, CyclicBarrier barrierFin) {
+        this.barrierInicio = barrierInicio;
+        this.barrierFin = barrierFin;
     }
 
-    private static class PinPonPun extends Thread {
-        private CyclicBarrier barrierInicio;
-        private CyclicBarrier barrierFin;
-
-        public PinPonPun(CyclicBarrier barrierInicio, CyclicBarrier barrierFin) {
-            this.barrierInicio = barrierInicio;
-            this.barrierFin = barrierFin;
-        }
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    barrierInicio.await();
-                    barrierInicio.reset();
-                    TimeUnit.MILLISECONDS.sleep(300);
-                    System.out.println(Thread.currentThread());
-                    barrierFin.await();
-                } catch (InterruptedException | BrokenBarrierException e) {
-                    e.printStackTrace();
-                }
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                barrierInicio.await();
+                barrierInicio.reset();
+                TimeUnit.MILLISECONDS.sleep(300);
+                System.out.println(Thread.currentThread());
+                barrierFin.await();
+            } catch (InterruptedException | BrokenBarrierException e) {
+                e.printStackTrace();
             }
-
         }
 
-
     }
+
 
 }
+
+
