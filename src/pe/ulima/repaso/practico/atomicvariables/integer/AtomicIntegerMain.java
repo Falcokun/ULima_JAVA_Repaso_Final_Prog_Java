@@ -1,4 +1,4 @@
-package pe.ulima.repaso.practico.atomicvariables;
+package pe.ulima.repaso.practico.atomicvariables.integer;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
