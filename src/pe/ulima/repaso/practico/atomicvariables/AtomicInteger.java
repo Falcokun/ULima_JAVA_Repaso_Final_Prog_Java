@@ -1,44 +1,18 @@
-package pe.ulima.repaso.practico.barriers;
+package pe.ulima.repaso.practico.atomicvariables;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Ricardo on 21/07/2015.
- * Repaso Final
+ * Created by smorzán on 22/07/2015.
+ * Repaso
  */
-public class Barriers {
-
+public class AtomicInteger {
     public static void main(String[] args) {
-        CyclicBarrier barrier1, barrier2, barrier3;
-        Thread pin, pon, pun;
-
-        barrier1 = new CyclicBarrier(2);
-        barrier2 = new CyclicBarrier(2);
-        barrier3 = new CyclicBarrier(2);
-
-        pin = new PinPonPun(barrier1, barrier2);
-        pon = new PinPonPun(barrier2, barrier3);
-        pun = new PinPonPun(barrier3, barrier1);
-
-        pin.setName("PIN");
-        pon.setName("PON");
-        pun.setName("PUN");
-
-        pun.start();
-        pon.start();
-        pin.start();
-
-        try {
-            barrier1.await();
-        } catch (InterruptedException | BrokenBarrierException e) {
-            e.printStackTrace();
-        }
 
     }
 }
-
 class PinPonPun extends Thread {
     private CyclicBarrier barrierInicio;
     private CyclicBarrier barrierFin;
@@ -65,5 +39,3 @@ class PinPonPun extends Thread {
     }
 
 }
-
-
