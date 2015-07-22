@@ -19,11 +19,13 @@ public class Phasers {
         pon.setName("PON");
         pun.setName("PUN");
 
-        pun.start();
-        pon.start();
-        pin.start();
+        pin.setPriority(Thread.MAX_PRIORITY);
+        pon.setPriority(Thread.NORM_PRIORITY);
+        pun.setPriority(Thread.MIN_PRIORITY);
 
-        phaser.arrive();
+        pin.start();
+        pon.start();
+        pun.start();
 
     }
 }
@@ -39,10 +41,9 @@ class PinPonPun extends Thread {
     public void run() {
         while (!phaser.isTerminated()) {
             try {
-                phaser.awaitAdvance(2);
-                TimeUnit.MILLISECONDS.sleep(300);
+                phaser.arriveAndAwaitAdvance();
                 System.out.println(Thread.currentThread());
-
+                TimeUnit.MILLISECONDS.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
