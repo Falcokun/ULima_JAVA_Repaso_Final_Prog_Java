@@ -1,63 +1,54 @@
-package pe.ulima.repaso.practico.semaforos;
+package pe.ulima.repaso.practico.explicitlock;
 
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by smorzán on 22/07/2015.
+ * Created by Ricardo on 23/07/2015.
  * Repaso
  */
-public class Semaforos {
-
-    final static int THREAD_CONCURRENCIA = 1;
-
+public class ExplicitLock {
     public static void main(String[] args) {
-        Semaphore semaforo = new Semaphore(THREAD_CONCURRENCIA,true);
-
-
+        Lock myLock = new ReentrantLock(true);
         Thread pin, pon, pun;
-        pin = new PinPonPun(semaforo);
-        pon = new PinPonPun(semaforo);
-        pun = new PinPonPun(semaforo);
+        pin = new PinPonPun(myLock);
+        pon = new PinPonPun(myLock);
+        pun = new PinPonPun(myLock);
 
         pin.setName("PIN");
         pon.setName("PON");
         pun.setName("PUN");
 
         try {
-            semaforo.acquire();
-
+            myLock.lock();
             pin.start();
             TimeUnit.MILLISECONDS.sleep(300);
             pon.start();
             TimeUnit.MILLISECONDS.sleep(300);
             pun.start();
-
-            semaforo.release();
-        } catch (InterruptedException e) {
+            myLock.unlock();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
     }
 }
 
 class PinPonPun extends Thread {
-    private Semaphore semaforo;
+    private Lock myLock;
 
-    public PinPonPun(Semaphore semaforo) {
-        this.semaforo = semaforo;
+    public PinPonPun(Lock myLock) {
+        this.myLock = myLock;
     }
 
     @Override
     public void run() {
         while (true) {
             try {
-                semaforo.acquire();
+                myLock.lock();
                 System.out.println(Thread.currentThread());
                 TimeUnit.MILLISECONDS.sleep(300);
-                semaforo.release();
+                myLock.unlock();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
