@@ -12,8 +12,7 @@ public class Semaforos {
     final static int THREAD_CONCURRENCIA = 1;
 
     public static void main(String[] args) {
-        Semaphore semaforo = new Semaphore(THREAD_CONCURRENCIA,true);
-
+        Semaphore semaforo = new Semaphore(THREAD_CONCURRENCIA, true);
 
         Thread pin, pon, pun;
         pin = new PinPonPun(semaforo);
@@ -37,9 +36,6 @@ public class Semaforos {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-
     }
 }
 
